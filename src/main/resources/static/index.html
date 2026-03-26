@@ -9,8 +9,8 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>Demo Application Test Client</h1>
-        <p>Test your API endpoints with this simple interface</p>
+        <h1>Demo Items Application </h1>
+        <p>Add items to your collection</p>
     </div>
 
     <div class="content">
@@ -21,15 +21,15 @@
                 <h3>Register</h3>
                 <div class="input-group">
                     <label>Username</label>
-                    <input type="text" id="reg-username" placeholder="Enter username">
+                    <label for="reg-username"></label><input type="text" id="reg-username" placeholder="Enter username">
                 </div>
                 <div class="input-group">
                     <label>Email</label>
-                    <input type="email" id="reg-email" placeholder="Enter email">
+                    <label for="reg-email"></label><input type="email" id="reg-email" placeholder="Enter email">
                 </div>
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password" id="reg-password" placeholder="Enter password">
+                    <label for="reg-password"></label><input type="password" id="reg-password" placeholder="Enter password">
                 </div>
                 <button onclick="register()">Register</button>
             </div>
@@ -38,11 +38,11 @@
                 <h3>Login</h3>
                 <div class="input-group">
                     <label>Username</label>
-                    <input type="text" id="login-username" placeholder="Enter username">
+                    <label for="login-username"></label><input type="text" id="login-username" placeholder="Enter username">
                 </div>
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password" id="login-password" placeholder="Enter password">
+                    <label for="login-password"></label><input type="password" id="login-password" placeholder="Enter password">
                 </div>
                 <button onclick="login()">Login</button>
                 <div id="token-info" class="token-info" style="display:none;"></div>
@@ -59,15 +59,15 @@
                 <h3>Create New Item</h3>
                 <div class="input-group">
                     <label>Name</label>
-                    <input type="text" id="item-name" placeholder="Item name">
+                    <label for="item-name"></label><input type="text" id="item-name" placeholder="Item name">
                 </div>
                 <div class="input-group">
                     <label>Description</label>
-                    <textarea id="item-description" rows="3" placeholder="Item description"></textarea>
+                    <label for="item-description"></label><textarea id="item-description" rows="3" placeholder="Item description"></textarea>
                 </div>
                 <div class="input-group">
                     <label>Price</label>
-                    <input type="number" id="item-price" step="0.01" placeholder="Price">
+                    <label for="item-price"></label><input type="number" id="item-price" step="0.01" placeholder="Price">
                 </div>
                 <button onclick="createItem()">Create</button>
                 <button onclick="hideCreateForm()" style="background:#95a5a6;">Cancel</button>
@@ -87,19 +87,19 @@
         <h3>Edit Item</h3>
         <div class="input-group">
             <label>Name</label>
-            <input type="text" id="edit-name">
+            <label for="edit-name"></label><input type="text" id="edit-name">
         </div>
         <div class="input-group">
             <label>Description</label>
-            <textarea id="edit-description" rows="3"></textarea>
+            <label for="edit-description"></label><textarea id="edit-description" rows="3"></textarea>
         </div>
         <div class="input-group">
             <label>Price</label>
-            <input type="number" id="edit-price" step="0.01">
+            <label for="edit-price"></label><input type="number" id="edit-price" step="0.01">
         </div>
         <div class="input-group">
             <label>Status</label>
-            <select id="edit-status">
+            <label for="edit-status"></label><select id="edit-status">
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
                 <option value="DELETED">DELETED</option>

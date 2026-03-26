@@ -29,7 +29,7 @@ class OpenApiConfig {
                     .license(
                         License()
                             .name("Apache 2.0")
-                            .url("http://springdoc.org")
+                            .url("https://springdoc.org")
                     )
             )
             .addSecurityItem(SecurityRequirement().addList("bearerAuth"))

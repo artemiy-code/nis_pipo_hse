@@ -18,7 +18,7 @@ class JwtAuthenticationFilter(
     private val customUserDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
 
-    private val logger = Logger.getLogger(JwtAuthenticationFilter::class.java.name)
+    private val logger1 = Logger.getLogger(JwtAuthenticationFilter::class.java.name)
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -43,7 +43,7 @@ class JwtAuthenticationFilter(
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 val username = jwtTokenProvider.getUsernameFromToken(token)
                 val role = jwtTokenProvider.getRoleFromToken(token)
-                logger.info("Authenticating user: $username with role: $role")
+                logger1.info("Authenticating user: $username with role: $role")
 
                 val userDetails = customUserDetailsService.loadUserByUsername(username)
 
@@ -57,10 +57,10 @@ class JwtAuthenticationFilter(
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
                 SecurityContextHolder.getContext().authentication = authentication
-                logger.info("Authentication successful for: $username")
+                logger1.info("Authentication successful for: $username")
             }
         } catch (e: Exception) {
-            logger.info("Authentication error: ${e.message}")
+            logger1.info("Authentication error: ${e.message}")
         }
 
         filterChain.doFilter(request, response)

@@ -134,7 +134,7 @@ function displayItems(items) {
                 <strong>Description:</strong> ${escapeHtml(item.description || 'No description')}<br>
                 <strong>Price:</strong> $${item.price}<br>
                 <strong>Created:</strong> ${new Date(item.createdAt).toLocaleString()}<br>
-                <strong>Last Updated:</strong> ${new Date(item.updatedAt).toLocaleString()}
+                <strong>Last updated:</strong> ${new Date(item.updatedAt).toLocaleString()}
             </div>
             <div class="item-actions">
                 <button class="edit-btn" onclick="openEditModal(${item.id})">Edit</button>
