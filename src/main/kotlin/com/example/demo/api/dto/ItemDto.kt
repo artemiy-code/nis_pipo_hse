@@ -42,7 +42,7 @@ data class ItemResponse(
     val id: Long,
 
     @field:Schema(description = "Item name", example = "Laptop")
-    val name: String,
+    val name: String ,
 
     @field:Schema(description = "Item description", example = "High-performance laptop")
     val description: String?,
