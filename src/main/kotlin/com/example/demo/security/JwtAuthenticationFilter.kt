@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
-import java.util.logging.Logger
 
 @Component
 class JwtAuthenticationFilter(
@@ -18,33 +17,17 @@ class JwtAuthenticationFilter(
     private val customUserDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
 
-    private val logger1 = Logger.getLogger(JwtAuthenticationFilter::class.java.name)
-
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val path = request.requestURI
-
-        // Пропускаем запросы к аутентификации и статическим файлам
-        if (path.startsWith("/api/auth") ||
-            path.startsWith("/css") ||
-            path.startsWith("/js") ||
-            path == "/" ||
-            path == "/index.html") {
-            filterChain.doFilter(request, response)
-            return
-        }
-
         try {
             val token = getTokenFromRequest(request)
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 val username = jwtTokenProvider.getUsernameFromToken(token)
                 val role = jwtTokenProvider.getRoleFromToken(token)
-                logger1.info("Authenticating user: $username with role: $role")
-
                 val userDetails = customUserDetailsService.loadUserByUsername(username)
 
                 val authorities = listOf(SimpleGrantedAuthority("ROLE_$role"))
@@ -57,10 +40,9 @@ class JwtAuthenticationFilter(
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
                 SecurityContextHolder.getContext().authentication = authentication
-                logger1.info("Authentication successful for: $username")
             }
         } catch (e: Exception) {
-            logger1.info("Authentication error: ${e.message}")
+            // Игнорируем ошибки аутентификации
         }
 
         filterChain.doFilter(request, response)

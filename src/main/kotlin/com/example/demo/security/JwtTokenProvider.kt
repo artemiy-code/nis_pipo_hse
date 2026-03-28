@@ -9,7 +9,7 @@ import java.security.Key
 import java.util.Date
 import java.util.logging.Logger
 
-@Component
+@Component  // Убедитесь, что эта аннотация есть
 class JwtTokenProvider {
 
     private val logger = Logger.getLogger(JwtTokenProvider::class.java.name)
@@ -30,7 +30,7 @@ class JwtTokenProvider {
 
         return Jwts.builder()
             .setSubject(user.username)
-            .claim("userId", user.id)  // user.id это Long, но в JSON станет Number
+            .claim("userId", user.id)
             .claim("role", user.role.name)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
@@ -54,7 +54,6 @@ class JwtTokenProvider {
             .parseClaimsJws(token)
             .body
 
-        // Исправление: конвертируем Number в Long
         val userId = claims["userId"] as Number
         return userId.toLong()
     }

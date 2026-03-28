@@ -61,6 +61,7 @@ class ItemService(
             throw SecurityException("You don't have permission to access this item")
         }
 
+        // Важно: проверяем, что item не удален
         if (item.status == ItemStatus.DELETED) {
             throw IllegalArgumentException("Item has been deleted")
         }
