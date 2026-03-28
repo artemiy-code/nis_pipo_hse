@@ -20,28 +20,31 @@ class OpenApiConfig {
                 Info()
                     .title("Demo Application API")
                     .version("1.0.0")
-                    .description("REST API for Demo Application with authentication and CRUD operations")
+                    .description("REST API for authentication and item CRUD operations")
                     .contact(
                         Contact()
-                            .name("Support Team")
+                            .name("Demo Project")
                             .email("support@example.com")
                     )
                     .license(
                         License()
                             .name("Apache 2.0")
-                            .url("https://springdoc.org")
+                            .url("https://www.apache.org/licenses/LICENSE-2.0")
                     )
             )
-            .addSecurityItem(SecurityRequirement().addList("bearerAuth"))
+            .addSecurityItem(
+                SecurityRequirement().addList("bearerAuth")
+            )
             .components(
                 Components()
                     .addSecuritySchemes(
                         "bearerAuth",
                         SecurityScheme()
+                            .name("Authorization")
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer")
                             .bearerFormat("JWT")
-                            .description("Enter JWT token")
+                            .description("JWT authorization header using the Bearer scheme. Example: Bearer <token>")
                     )
             )
     }

@@ -43,15 +43,16 @@ class ItemController(
         @RequestHeader("Authorization") authHeader: String,
         @Valid @RequestBody request: CreateItemRequest
     ): ResponseEntity<ItemResponse> {
-        // Добавьте логирование
-        println("=== CREATE ITEM ===")
-        println("Auth header: $authHeader")
-        println("Request: $request")
+        logger.info("Create item request received")
+        logger.debug("Authorization header received: {}", authHeader.take(20) + "...")
+        logger.debug("Create item payload: {}", request)
 
         val userId = getUserIdFromToken(authHeader)
-        println("User ID from token: $userId")
+        logger.info("Creating item for userId={}", userId)
 
         val response = itemService.createItem(userId, request)
+        logger.info("Item created successfully for userId={}", userId)
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
@@ -69,9 +70,11 @@ class ItemController(
         @PathVariable id: Long
     ): ResponseEntity<ItemResponse> {
         val userId = getUserIdFromToken(authHeader)
-        logger.info("Fetching item ID: {} for user ID: {}", id, userId)
+        logger.info("Fetching itemId={} for userId={}", id, userId)
 
         val response = itemService.getItemById(id, userId)
+        logger.info("Item fetched successfully: itemId={}, userId={}", id, userId)
+
         return ResponseEntity.ok(response)
     }
 
@@ -88,9 +91,11 @@ class ItemController(
         @PageableDefault(size = 20, sort = ["createdAt"], direction = Sort.Direction.DESC) pageable: Pageable
     ): ResponseEntity<Page<ItemResponse>> {
         val userId = getUserIdFromToken(authHeader)
-        logger.info("Fetching items for user ID: {} with pageable: {}", userId, pageable)
+        logger.info("Fetching items for userId={} with pageable={}", userId, pageable)
 
         val response = itemService.getUserItems(userId, pageable)
+        logger.info("Items fetched successfully for userId={}", userId)
+
         return ResponseEntity.ok(response)
     }
 
@@ -110,9 +115,12 @@ class ItemController(
         @Valid @RequestBody request: UpdateItemRequest
     ): ResponseEntity<ItemResponse> {
         val userId = getUserIdFromToken(authHeader)
-        logger.info("Updating item ID: {} for user ID: {}", id, userId)
+        logger.info("Updating itemId={} for userId={}", id, userId)
+        logger.debug("Update item payload: {}", request)
 
         val response = itemService.updateItem(id, userId, request)
+        logger.info("Item updated successfully: itemId={}, userId={}", id, userId)
+
         return ResponseEntity.ok(response)
     }
 
@@ -131,13 +139,16 @@ class ItemController(
         @PathVariable id: Long
     ): ResponseEntity<Void> {
         val userId = getUserIdFromToken(authHeader)
-        logger.info("Deleting item ID: {} for user ID: {}", id, userId)
+        logger.info("Deleting itemId={} for userId={}", id, userId)
 
         itemService.deleteItem(id, userId)
+        logger.info("Item deleted successfully: itemId={}, userId={}", id, userId)
+
         return ResponseEntity.noContent().build()
     }
 
     private fun getUserIdFromToken(authHeader: String): Long {
+        logger.debug("Extracting userId from JWT token")
         val token = authHeader.removePrefix("Bearer ").trim()
         return jwtTokenProvider.getUserIdFromToken(token)
     }

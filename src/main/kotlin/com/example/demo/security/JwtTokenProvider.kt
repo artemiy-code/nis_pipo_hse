@@ -1,18 +1,22 @@
 package com.example.demo.security
 
 import com.example.demo.domain.model.User
-import io.jsonwebtoken.*
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.MalformedJwtException
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.Keys
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.Date
-import java.util.logging.Logger
 
-@Component  // Убедитесь, что эта аннотация есть
+@Component
 class JwtTokenProvider {
 
-    private val logger = Logger.getLogger(JwtTokenProvider::class.java.name)
+    private val logger = LoggerFactory.getLogger(JwtTokenProvider::class.java)
 
     @Value("\${app.jwt.secret}")
     private lateinit var jwtSecret: String
@@ -28,6 +32,8 @@ class JwtTokenProvider {
         val now = Date()
         val expiryDate = Date(now.time + jwtExpiration)
 
+        logger.debug("Generating JWT token for username={}, userId={}", user.username, user.id)
+
         return Jwts.builder()
             .setSubject(user.username)
             .claim("userId", user.id)
@@ -39,6 +45,7 @@ class JwtTokenProvider {
     }
 
     fun getUsernameFromToken(token: String): String {
+        logger.debug("Extracting username from JWT token")
         return Jwts.parserBuilder()
             .setSigningKey(key())
             .build()
@@ -48,6 +55,8 @@ class JwtTokenProvider {
     }
 
     fun getUserIdFromToken(token: String): Long {
+        logger.debug("Extracting userId from JWT token")
+
         val claims = Jwts.parserBuilder()
             .setSigningKey(key())
             .build()
@@ -59,6 +68,8 @@ class JwtTokenProvider {
     }
 
     fun getRoleFromToken(token: String): String {
+        logger.debug("Extracting role from JWT token")
+
         val claims = Jwts.parserBuilder()
             .setSigningKey(key())
             .build()
@@ -69,18 +80,26 @@ class JwtTokenProvider {
     }
 
     fun validateToken(token: String): Boolean {
-        try {
-            Jwts.parserBuilder().setSigningKey(key()).build().parse(token)
-            return true
+        return try {
+            Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+
+            logger.debug("JWT token is valid")
+            true
         } catch (ex: MalformedJwtException) {
-            logger.info("Invalid JWT token: ${ex.message}")
+            logger.warn("Invalid JWT token: {}", ex.message)
+            false
         } catch (ex: ExpiredJwtException) {
-            logger.info("Expired JWT token: ${ex.message}")
+            logger.warn("Expired JWT token: {}", ex.message)
+            false
         } catch (ex: UnsupportedJwtException) {
-            logger.info("Unsupported JWT token: ${ex.message}")
+            logger.warn("Unsupported JWT token: {}", ex.message)
+            false
         } catch (ex: IllegalArgumentException) {
-            logger.info("JWT claims string is empty: ${ex.message}")
+            logger.warn("JWT claims string is empty: {}", ex.message)
+            false
         }
-        return false
     }
 }
