@@ -19,7 +19,6 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    // Аннотация меняет имя геттера свойства на JVM-уровне
     @get:JvmName("getUsernameValue")
     @Column(unique = true, nullable = false, length = 50)
     var username: String,
@@ -46,7 +45,6 @@ class User(
 
     override fun getPassword(): String = passwordHash
 
-    // Метод интерфейса UserDetails
     override fun getUsername(): String = username
 
     override fun isAccountNonExpired(): Boolean = true
@@ -54,7 +52,7 @@ class User(
     override fun isCredentialsNonExpired(): Boolean = true
     override fun isEnabled(): Boolean = true
 }
-
+// Админ пусть будет
 enum class Role {
     USER, ADMIN
 }

@@ -1,6 +1,5 @@
 package com.example.demo.api.controller
 
-import com.example.demo.api.dto.AuthResponse
 import com.example.demo.api.dto.LoginRequest
 import com.example.demo.api.dto.RegisterRequest
 import com.example.demo.controller.AuthController

@@ -28,7 +28,7 @@ class AuthIntegrationTest {
     @BeforeEach
     fun setUp() {
         headers = HttpHeaders().apply {
-            setContentType(MediaType.APPLICATION_JSON)
+            contentType = MediaType.APPLICATION_JSON
         }
     }
 

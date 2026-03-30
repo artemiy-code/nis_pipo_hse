@@ -1,9 +1,7 @@
-// Глобальные переменные
 let currentToken = null;
 let currentPage = 0;
 let editingItemId = null;
 
-// Функции для работы с уведомлениями
 function showAlert(message, type) {
     const alert = document.getElementById('alert');
     alert.textContent = message;
@@ -14,7 +12,6 @@ function showAlert(message, type) {
     }, 5000);
 }
 
-// Функции аутентификации
 async function register() {
     const username = document.getElementById('reg-username').value;
     const email = document.getElementById('reg-email').value;
@@ -35,7 +32,7 @@ async function register() {
         });
 
         if (response.ok) {
-            const data = await response.json();
+            // const data = await response.json();
             showAlert('Registration successful! You can now login.', 'success');
             document.getElementById('reg-username').value = '';
             document.getElementById('reg-email').value = '';
@@ -75,7 +72,7 @@ async function login() {
             tokenInfo.style.display = 'block';
             document.getElementById('items-section').style.display = 'block';
             showAlert('Login successful!', 'success');
-            loadItems();
+            await loadItems();
         } else {
             showAlert('Login failed: Invalid credentials', 'error');
         }
@@ -84,12 +81,12 @@ async function login() {
     }
 }
 
-// Функции для работы с items
+
 async function loadItems(page = 0) {
     if (!currentToken) return;
 
     const loading = document.getElementById('loading');
-    const container = document.getElementById('items-container');
+    // const container = document.getElementById('items-container');
     loading.style.display = 'block';
 
     try {
@@ -184,7 +181,7 @@ async function createItem() {
         if (response.ok) {
             showAlert('Item created successfully!', 'success');
             hideCreateForm();
-            loadItems(currentPage);
+            await loadItems(currentPage);
         } else {
             const error = await response.text();
             showAlert('Failed to create item: ' + error, 'error');
@@ -239,7 +236,7 @@ async function updateItem() {
         if (response.ok) {
             showAlert('Item updated successfully!', 'success');
             closeModal();
-            loadItems(currentPage);
+            await loadItems(currentPage);
         } else {
             const error = await response.text();
             showAlert('Failed to update item: ' + error, 'error');
@@ -262,7 +259,7 @@ async function deleteItem(itemId) {
 
         if (response.ok) {
             showAlert('Item deleted successfully!', 'success');
-            loadItems(currentPage);
+            await loadItems(currentPage);
         } else {
             const error = await response.text();
             showAlert('Failed to delete item: ' + error, 'error');
@@ -272,7 +269,6 @@ async function deleteItem(itemId) {
     }
 }
 
-// Вспомогательные функции
 function showCreateForm() {
     document.getElementById('create-item-form').classList.add('active');
 }

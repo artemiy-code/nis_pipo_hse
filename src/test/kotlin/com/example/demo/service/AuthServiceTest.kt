@@ -1,6 +1,5 @@
 package com.example.demo.service
 
-import com.example.demo.api.dto.AuthResponse
 import com.example.demo.api.dto.LoginRequest
 import com.example.demo.api.dto.RegisterRequest
 import com.example.demo.domain.model.Role
@@ -19,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDateTime
-import java.util.*
 
 @ExtendWith(MockKExtension::class)
 class AuthServiceTest {

@@ -36,7 +36,6 @@ class SecurityConfig(
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            // Настройка для возврата 401 вместо 403
             .exceptionHandling {
                 it.authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             }

@@ -29,7 +29,7 @@ class ItemIntegrationTest {
     @BeforeEach
     fun setUp() {
         val registerRequest = RegisterRequest(testUsername, testEmail, "password123")
-        val registerHeaders = HttpHeaders().apply { setContentType(MediaType.APPLICATION_JSON) }
+        val registerHeaders = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
         val registerResponse = restTemplate.postForEntity(
             "/api/auth/register",
             HttpEntity(registerRequest, registerHeaders),
@@ -38,7 +38,7 @@ class ItemIntegrationTest {
         authToken = registerResponse.body?.token ?: ""
 
         headers = HttpHeaders().apply {
-            setContentType(MediaType.APPLICATION_JSON)
+            contentType = MediaType.APPLICATION_JSON
             set("Authorization", "Bearer $authToken")
         }
     }
@@ -181,7 +181,7 @@ class ItemIntegrationTest {
     fun `should not allow access without token`() {
         val request = CreateItemRequest("Valid Item", "Valid description", BigDecimal("100.00"))
         val headersWithoutToken = HttpHeaders().apply {
-            setContentType(MediaType.APPLICATION_JSON)
+            contentType = MediaType.APPLICATION_JSON
         }
         val response = restTemplate.postForEntity(
             "/api/items",

@@ -258,7 +258,6 @@ button:hover {
     display: none;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .auth-section {
         flex-direction: column;

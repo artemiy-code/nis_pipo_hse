@@ -9,10 +9,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ItemRepository : JpaRepository<Item, Long> {
-
-    fun findByUserId(userId: Long, pageable: Pageable): Page<Item>
-
     fun findByUserIdAndStatus(userId: Long, status: ItemStatus, pageable: Pageable): Page<Item>
-
-    fun findByIdAndUserId(id: Long, userId: Long): Item?
 }

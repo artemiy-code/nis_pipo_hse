@@ -28,7 +28,7 @@ class AuthService(
     fun register(request: RegisterRequest): AuthResponse {
         logger.info("Attempting to register user: {}", request.username)
 
-        // Проверка существования пользователя
+        // Проверка существования user'a
         if (userRepository.existsByUsername(request.username)) {
             logger.warn("Username already exists: {}", request.username)
             throw IllegalArgumentException("Username already exists")
@@ -39,7 +39,7 @@ class AuthService(
             throw IllegalArgumentException("Email already exists")
         }
 
-        // Создание нового пользователя
+        // Создание user'a
         val user = User(
             username = request.username,
             email = request.email,
@@ -50,7 +50,7 @@ class AuthService(
         val savedUser = userRepository.save(user)
         logger.info("User registered successfully: {}", savedUser.username)
 
-        // Генерация JWT токена
+        // генерим JWT токен
         val token = jwtTokenProvider.generateToken(savedUser)
 
         return AuthResponse(
@@ -65,7 +65,6 @@ class AuthService(
         logger.info("Login attempt for user: {}", request.username)
 
         try {
-            // Аутентификация
             val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(request.username, request.password)
             )

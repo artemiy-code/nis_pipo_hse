@@ -42,7 +42,7 @@ class JwtAuthenticationFilter(
                 SecurityContextHolder.getContext().authentication = authentication
             }
         } catch (e: Exception) {
-            // Игнорируем ошибки аутентификации
+            logger.warn("JWT authentication failed: {}", e)
         }
 
         filterChain.doFilter(request, response)

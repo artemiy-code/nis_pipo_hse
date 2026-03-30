@@ -61,7 +61,7 @@ class ItemService(
             throw SecurityException("You don't have permission to access this item")
         }
 
-        // Важно: проверяем, что item не удален
+        // проверка, что item без soft delete
         if (item.status == ItemStatus.DELETED) {
             throw IllegalArgumentException("Item has been deleted")
         }
@@ -73,7 +73,6 @@ class ItemService(
     fun getUserItems(userId: Long, pageable: Pageable): Page<ItemResponse> {
         logger.debug("Fetching items for user ID: {}", userId)
 
-        // Используем правильный метод репозитория
         return itemRepository.findByUserIdAndStatus(userId, ItemStatus.ACTIVE, pageable)
             .map { mapToResponse(it) }
     }

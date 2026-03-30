@@ -44,16 +44,3 @@ data class AuthResponse(
     val role: String
 )
 
-@Schema(description = "User information response")
-data class UserResponse(
-    @field:Schema(description = "User ID", example = "1")
-    val id: Long,
-    @field:Schema(description = "Username", example = "john_doe")
-    val username: String,
-    @field:Schema(description = "Email address", example = "john@example.com")
-    val email: String,
-    @field:Schema(description = "User role", example = "USER")
-    val role: String,
-    @field:Schema(description = "Creation timestamp", example = "2024-01-01T10:00:00")
-    val createdAt: String
-)
