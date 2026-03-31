@@ -49,7 +49,7 @@ class ItemControllerTest {
 
     @BeforeEach
     fun setUp() {
-        // Мокаем получение userId из токена для всех тестов
+        // Мокаем получение userId из токена
         `when`(jwtTokenProvider.getUserIdFromToken(anyString())).thenReturn(testUserId)
     }
 
@@ -140,5 +140,4 @@ class ItemControllerTest {
         )
             .andExpect(status().isNotFound)
     }
-
 }

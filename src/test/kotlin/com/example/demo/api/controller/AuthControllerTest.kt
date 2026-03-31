@@ -44,7 +44,7 @@ class AuthControllerTest {
 
     @BeforeEach
     fun setUp() {
-        // Сбрасываем моки перед каждым тестом
+        // сбрасываем моки перед каждым тестом
         reset(authService)
     }
 
